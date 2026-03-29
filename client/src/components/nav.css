@@ -1,0 +1,77 @@
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ref: https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
+/* FLEX CONTAINER */
+.navi { 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* def pos in world */
+    position: fixed;
+    z-index: 9000;
+    /* def self size */
+    height: 150px;
+    width: 100%; /* 100% of parent avail */
+    /* def stuff inside */
+}
+.navi:hover {  /*https://cssgradient.io/*/
+    background: #ffffff;
+    background: linear-gradient(0deg,rgba(255, 255, 255, 0) 57%, rgba(9, 3, 64, 1) 100%);
+}
+
+
+
+
+
+/* FLEX ITEM */
+.logo { 
+}
+.r { 
+    padding-right: 20px;
+}
+
+
+
+.flexcontainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    
+}
+/* .flexitems{
+    text-decoration: none;
+    font-family: 'Courier New', Courier, monospace;
+} */
+.link {
+    padding: 20px;
+
+    text-decoration: none; 
+    color: blueviolet;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+
+.active {
+    color: #02ccff;
+
+}
+
+
+
