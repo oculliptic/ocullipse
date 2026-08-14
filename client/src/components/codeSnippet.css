@@ -1,0 +1,44 @@
+
+
+
+
+.botch-job001 {
+    
+    /* display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem; */ 
+    overflow: auto;
+    display: flex;
+    height: 500px;
+    padding: 5%;
+    border-radius: 10 px;
+} 
+ 
+
+
+.botch-job-mini001 {
+    
+    /* display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem; */ 
+    background-color: bisque;
+} 
+ 
+.botch-job-mini002 {
+    
+    /* display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem; */ 
+    color: red;
+} 
+
+.botch-job-mini003 {
+    
+    /* display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem; */ 
+    color: bisque;
+} 
+
+
+
