@@ -1,37 +1,38 @@
 
 
-import * as THREE from 'three';
-import { useRef, useState } from 'react';
-import { Canvas, useFrame, type ThreeElements } from '@react-three/fiber';
+// import * as THREE from 'three';
+// import { useRef, useState } from 'react';
+// import { Canvas, useFrame, type ThreeElements } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js' 
 
 
 // to watch: https://youtu.be/DPl34H2ISsk?si=vmXbAkDyettKzorA 
 // https://r3f.docs.pmnd.rs/getting-started/introduction 
-function Box(props: ThreeElements['mesh']) {
-  const meshRef = useRef<THREE.Mesh>(null!);
-  const [hovered, setHover] = useState(false);
-  const [active, setActive] = useState(false);
+// function Box(props: ThreeElements['mesh']) {
+//   const meshRef = useRef<THREE.Mesh>(null!);
+//   const [hovered, setHover] = useState(false);
+//   const [active, setActive] = useState(false);
 
-  useFrame((_, delta) => {
-    meshRef.current.rotation.x += delta;
-  });
+//   useFrame((_, delta) => {
+//     meshRef.current.rotation.x += delta;
+//   });
 
-  return (
-    <mesh
-      {...props}
-      ref={meshRef}
-      scale={active ? 1.5 : 1}
-      onClick={() => setActive(!active)}
-      onPointerOver={() => setHover(true)}
-      onPointerOut={() => setHover(false)}
-    >
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? 'hotpink' : '#2f74c0'} />
-    </mesh>
-  );
-}
+//   return (
+//     <mesh
+//       {...props}
+//       ref={meshRef}
+//       scale={active ? 1.5 : 1}
+//       onClick={() => setActive(!active)}
+//       onPointerOver={() => setHover(true)}
+//       onPointerOut={() => setHover(false)}
+//     >
+//       <boxGeometry args={[1, 1, 1]} />
+//       <meshStandardMaterial color={hovered ? 'hotpink' : '#2f74c0'} />
+//     </mesh>
+//   );
+// }
 
 function Scene() {
   const gltf = useLoader(GLTFLoader, './public/CB-test3.gltf')
