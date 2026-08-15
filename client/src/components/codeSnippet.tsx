@@ -7,7 +7,7 @@ import {
   useSandpack,
   SandpackPreview
 } from "@codesandbox/sandpack-react";
-import './CodeSnippet.css'; 
+import './codeSnippet.css'; 
 
 function CodeSnippet({ files, compBowl = false }: { files: Record<string, any>; compBowl?: boolean }) {  
     function ActiveFileDisplay() {
