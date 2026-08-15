@@ -8,8 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview", 
-    "start": "node index.js" 
-}
+    "start": "node index.js"  
   },
   "dependencies": {
     "@codesandbox/sandpack-client": "^2.19.8",
