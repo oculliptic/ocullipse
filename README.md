@@ -19,7 +19,7 @@ npm i @codesandbox/sandpack-client
 ``` 
 
 
-
+pip install fastapi uvicorn
 
 
 
