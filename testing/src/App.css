@@ -1,0 +1,52 @@
+
+
+
+.markdown-container{
+  width: 500px; 
+  justify-items: left; 
+  text-align: left; 
+  margin: 0px;
+}
+
+.dork{
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.dork1{
+  margin-top: 6px;
+  margin-bottom: 0px;
+}
+
+.seven {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  font-size: 0.875rem; /* Equivalent to 14px */
+  color: #4b5563;       /* Tailwind's text-gray-600 hex code */
+}
+
+.cout {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 1.5rem;    /* 24px - equivalent to my-6 */
+  margin-bottom: 1.5rem; /* 24px - equivalent to my-6 */
+  border-radius: 0.5rem; /* 8px - equivalent to rounded-lg */
+  border: 1px solid #e5e7eb; /* Tailwind's border-gray-200 */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Tailwind's shadow-sm */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
