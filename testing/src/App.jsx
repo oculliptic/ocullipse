@@ -17,7 +17,7 @@ import { Sandpack } from "@codesandbox/sandpack-react"
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import { Table } from "@chakra-ui/react"
 
-
+import remarkFrontmatter from 'remark-frontmatter'
 
 const customComponents = {
   // Wrap the table in a responsive div container to prevent mobile layout breaking
@@ -69,8 +69,9 @@ export default function App() {
         <ReactMarkdown  
         children={markdownContent}
         remarkPlugins={[
-          [remarkGfm, {singleTilde: false}], 
-          remarkMath
+          [remarkGfm, {singleTilde: false}], // references 
+          remarkMath, // Render Latex 
+          remarkFrontmatter // hide frontmatter 
         ]}
         rehypePlugins={[rehypeKatex]} 
         components={{ ...customComponents,
