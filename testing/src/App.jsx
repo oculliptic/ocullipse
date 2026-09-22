@@ -26,9 +26,11 @@ import remarkFrontmatter from 'remark-frontmatter'
 import { LuChevronRight } from "react-icons/lu"
 import { visit } from 'unist-util-visit'; 
 
-
-
+// spacing? 
 import remarkBreaks from 'remark-breaks'; 
+
+// WikiLinks
+import wikiLinkPlugin from 'remark-wiki-link' 
 
 // ////////////////////////////////////////////////////////////////
 import {toString} from 'hast-util-to-string'
@@ -62,9 +64,6 @@ function provideHeadingID(options){ // IN: configure settings
 }
 // ////////////////////////////////////////////////////////////////
 // INSPIRED BY: https://github.com/remarkjs/remark-math/blob/main/packages/rehype-katex/lib/index.js 
-import {fromHtmlIsomorphic} from 'hast-util-from-html-isomorphic'
-import {toText} from 'hast-util-to-text'
-import katex from 'katex'
 import {SKIP, visitParents} from 'unist-util-visit-parents'
 import React from 'react';
 function collapsibleH6(options){ // IN: configure settings 
@@ -90,7 +89,8 @@ function collapsibleH6(options){ // IN: configure settings
           endId = (parent.children.indexOf(element))-1
           // console.log("END ID: " + endId)
         }
-        if(startId != -1 && endId != -1){
+        console.log(tree)
+        if(startId != -1 && endId != -1 && false){
           // console.log(startId, endId)
           const deleteCount = endId - startId;
           const chillArr = parent.children.splice(startId, deleteCount) 
@@ -108,6 +108,164 @@ function collapsibleH6(options){ // IN: configure settings
         }
       }
     )
+  }
+}
+function collapsibleHnFail(options){ // IN: configure settings 
+  const settings = options || emptyOptions 
+  return function (tree) {
+    console.log(tree)
+    let startIdx = [-1,-1,-1,-1,-1,-1] // startIdx[0] is for H1, ... etc.
+    let endIdx =   [-1,-1,-1,-1,-1,-1] // endIdx[0]   is for H1, ... etc.
+    visitParents(tree, 'element', function (element, parents) { 
+      const parent = parents[parents.length - 1]; 
+      function makeDivCheck(hn){
+        for(let i = 6; i > -1 ; i--){
+          if((startIdx[i] !== -1) && (endIdx[i] >= startIdx[i])){
+            // console.log(tree)
+            const deleteCount = endIdx[i] - startIdx[i];
+            const chillArr = parent.children.splice(startIdx[i], deleteCount) 
+            const divSubtree = {
+              type: "element", 
+              tagName: "div", 
+              properties: {id: "divSubtree-H6"}, // + (i+1)},
+              children: chillArr 
+            }
+            console.log("DIV TREE BUILT WITH FOR H" + (i+1) + ":\n" + startIdx + "\n" + endIdx)
+            const holder = startIdx[i]
+            // startIdx[hn-1] = (parent.children.indexOf(element))
+            // PLACE TREE 
+            parent.children[holder] = divSubtree
+            let j = (i-1)
+            for(let j = (i-1); j > -1 ; j--){
+              console.log(j)
+              endIdx[j] = holder + 1
+            }
+            console.log(parent.children[holder].indexOf)
+            console.log(parent.children[holder])
+            startIdx[i] = -1
+            endIdx[i] = -1
+            console.log("AFTER SUBTREE BUILT\n" + startIdx + "\n" + endIdx)
+            // return
+          }
+        }
+      }
+      if(!parent) {return} 
+      switch(element.tagName){
+        case "h6":
+          // console.log("H6 read!\n" + startIdx + "\n" + endIdx)
+          endIdx[5] = (parent.children.indexOf(element)-1)
+          makeDivCheck()
+          startIdx[5] = (parent.children.indexOf(element))
+          console.log("H6 changes\n" + startIdx + "\n" + endIdx)
+          break;
+        case "h5":
+          // console.log("H5 read!\n" + startIdx + "\n" + endIdx)
+          endIdx[4] = (parent.children.indexOf(element)-1)
+          endIdx[5] = (parent.children.indexOf(element)-1)
+          makeDivCheck()
+          startIdx[4] = (parent.children.indexOf(element))
+          console.log("H5 changes\n" + startIdx + "\n" + endIdx)
+          break
+        case "h4":
+          // console.log("H4 read!\n" + startIdx + "\n" + endIdx)
+          console.log(parent.children.indexOf(element))
+          endIdx[3] = (parent.children.indexOf(element)-1)
+          endIdx[4] = (parent.children.indexOf(element)-1)
+          endIdx[5] = (parent.children.indexOf(element)-1)
+          makeDivCheck(4)
+          startIdx[3] = (parent.children.indexOf(element))
+          console.log("H4 changes\n" + startIdx + "\n" + endIdx)
+          break;
+        case "h3":
+          // console.log("H3 read!\n" + startIdx + "\n" + endIdx)
+          endIdx[2] = (parent.children.indexOf(element)-1)
+          endIdx[3] = (parent.children.indexOf(element)-1)
+          endIdx[4] = (parent.children.indexOf(element)-1)
+          endIdx[5] = (parent.children.indexOf(element)-1)
+          makeDivCheck()
+          startIdx[2] = (parent.children.indexOf(element))
+          console.log("H3 changes\n" + startIdx + "\n" + endIdx)
+          break;
+        case "h2":
+          // console.log("H2 read!\n" + startIdx + "\n" + endIdx)
+          endIdx[1] = (parent.children.indexOf(element)-1)
+          endIdx[2] = (parent.children.indexOf(element)-1)
+          endIdx[3] = (parent.children.indexOf(element)-1)
+          endIdx[4] = (parent.children.indexOf(element)-1)
+          endIdx[5] = (parent.children.indexOf(element)-1)
+          makeDivCheck()
+          startIdx[1] = (parent.children.indexOf(element))
+          console.log("H2 changes\n" + startIdx + "\n" + endIdx)
+          break;
+        case "h1":
+          // console.log("H1 read!\n" + startIdx + "\n" + endIdx)
+          endIdx[0] = (parent.children.indexOf(element)-1)
+          endIdx[1] = (parent.children.indexOf(element)-1)
+          endIdx[2] = (parent.children.indexOf(element)-1)
+          endIdx[3] = (parent.children.indexOf(element)-1)
+          endIdx[4] = (parent.children.indexOf(element)-1)
+          endIdx[5] = (parent.children.indexOf(element)-1)
+          makeDivCheck()
+          startIdx[0] = (parent.children.indexOf(element))
+          console.log("H1 changes\n" + startIdx + "\n" + endIdx)
+          break;
+        default: 
+          // console.log("Reading ... " + parent.children.indexOf(element))
+      }
+    })
+  }
+}
+function collapsibleHn(options){ // IN: configure settings 
+  const settings = options || emptyOptions 
+  return function (tree) {
+    console.log(tree)
+    let startIdx = [-1,-1,-1,-1,-1,-1] // startIdx[0] is for H1, ... etc.
+    let endIdx =   [-1,-1,-1,-1,-1,-1] // endIdx[0]   is for H1, ... etc.
+    
+    function pp(tree){
+      let Mark = 0; 
+      function makeDivCheck(){
+        for(let i = 6; i > -1 ; i--){
+          if((startIdx[i] !== -1) && (endIdx[i] >= startIdx[i])){
+            const deleteCount = endIdx[i] - startIdx[i];
+            const chillArr = tree.children.splice(startIdx[i], deleteCount) 
+            const divSubtree = {
+              type: "element", 
+              tagName: "div", 
+              properties: {id: "divSubtree-H6"}, // + (i+1)},
+              children: chillArr 
+            }
+            console.log("DIV TREE BUILT WITH FOR H" + (i+1) + ":\n" + startIdx + "\n" + endIdx)
+            const holder = startIdx[i]
+            // startIdx[hn-1] = (tree.children.indexOf(element))
+            // PLACE TREE 
+            tree.children[holder] = divSubtree
+            let j = (i-1)
+            for(let j = (i-1); j > -1 ; j--){
+              console.log(j)
+              endIdx[j] = holder + 1
+            }
+            console.log(tree.children[holder].indexOf)
+            console.log(tree.children[holder])
+            startIdx[i] = -1
+            endIdx[i] = -1
+            console.log("AFTER SUBTREE BUILT\n" + startIdx + "\n" + endIdx)
+            // return
+          }
+        }
+      }
+      while(Mark < tree.children.length){
+        const element = tree.children[Mark];
+        if (element.type !== "element") {
+          Mark++;
+          continue;
+        }
+        
+        
+
+      }
+
+    }
   }
 }
 // ////////////////////////////////////////////////////////////////
@@ -175,9 +333,6 @@ const customComponents = {
 
 export default function App() {
   const [markdownContent, setMarkdownContent] = useState("");
-  const markdown = 'This ~is not~ strikethrough, but ~~this is~~!'
-  const markdown2 = `The lift coefficient ($C_L$) is a dimensionless coefficient.`
-
   useEffect(() => {
     // Fetches from the public folder at runtime
     fetch("./Proofs.md")
@@ -195,13 +350,15 @@ export default function App() {
           [remarkGfm, {singleTilde: false}], // references 
           remarkMath, // place Latex into code block 
           remarkFrontmatter, // hide frontmatter 
-          remarkBreaks, 
+          remarkBreaks, // keeping new lines 
+          wikiLinkPlugin, // Wiki Links 
         ]}
         // hAST --> 
         rehypePlugins={[ 
           rehypeKatex, // render latex into text 
           provideHeadingID, 
-          collapsibleH6, 
+          // collapsibleH6, 
+          collapsibleHn,
           // rehypeKatex2
         ]} 
         // ------------------------------
