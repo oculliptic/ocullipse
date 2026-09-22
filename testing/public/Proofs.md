@@ -26,7 +26,7 @@ Truth is the opposite of falsehood.
 [[proof.induction]] 
 [[proof.contradiction]] 
 #### CONCEPTS STILL MEMORIZING
-- 
+- Lost function
 ***
 ## Definition 
 #### Formal Mathematical Definition 
