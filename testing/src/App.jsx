@@ -18,7 +18,7 @@ import {coy} from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Sandpack } from "@codesandbox/sandpack-react"
 
 // Table Handling 
-import { ChakraProvider, defaultSystem, Collapsible, Stack } from '@chakra-ui/react';
+import { ChakraProvider, defaultSystem, Collapsible, Stack, useListStyles, List } from '@chakra-ui/react';
 import { Table } from "@chakra-ui/react"
 import remarkFrontmatter from 'remark-frontmatter'
 
@@ -26,6 +26,9 @@ import remarkFrontmatter from 'remark-frontmatter'
 import { LuChevronRight } from "react-icons/lu"
 import { visit } from 'unist-util-visit'; 
 
+
+
+import remarkBreaks from 'remark-breaks'; 
 
 // ////////////////////////////////////////////////////////////////
 import {toString} from 'hast-util-to-string'
@@ -63,6 +66,7 @@ import {fromHtmlIsomorphic} from 'hast-util-from-html-isomorphic'
 import {toText} from 'hast-util-to-text'
 import katex from 'katex'
 import {SKIP, visitParents} from 'unist-util-visit-parents'
+import React from 'react';
 function collapsibleH6(options){ // IN: configure settings 
   const settings = options || emptyOptions 
   return function (tree) {
@@ -75,7 +79,7 @@ function collapsibleH6(options){ // IN: configure settings
         // looping occurs for EVERY ELEMENT  
         if(element.tagName === 'h6'){
           startId = (parent.children.indexOf(element))
-          console.log("START ID: " + startId)
+          // console.log("START ID: " + startId)
         } else if( startId !== -1 && 
           (element.tagName === 'h1' || 
           element.tagName === 'h2' || 
@@ -84,10 +88,10 @@ function collapsibleH6(options){ // IN: configure settings
           element.tagName === 'h5' || 
           element.tagName === 'h6' )){
           endId = (parent.children.indexOf(element))-1
-          console.log("END ID: " + endId)
+          // console.log("END ID: " + endId)
         }
         if(startId != -1 && endId != -1){
-          console.log(startId, endId)
+          // console.log(startId, endId)
           const deleteCount = endId - startId;
           const chillArr = parent.children.splice(startId, deleteCount) 
           const divSubtree = {
@@ -97,7 +101,7 @@ function collapsibleH6(options){ // IN: configure settings
             children: chillArr 
           }
           parent.children[startId] = divSubtree
-          console.log(parent.children[startId])
+          // console.log(parent.children[startId])
           console.log(tree)
           startId = -1 
           endId = -1 
@@ -110,9 +114,11 @@ function collapsibleH6(options){ // IN: configure settings
 const customComponents = {
   // INPUT: AST things 
   table: ({ children, ...props }) => (
-    <Table.Root size="md" variant="line" interactive {...props}>
-      {children}
-    </Table.Root>
+    <div >
+      <Table.Root size="md" variant="line" interactive {...props}>
+        {children}
+      </Table.Root>
+    </div>
   ),
   thead: ({ children, ...props }) => (
     <Table.Header {...props}>{children}</Table.Header>
@@ -128,6 +134,12 @@ const customComponents = {
   ),
   td: ({ children, ...props }) => (
     <Table.Cell {...props}>{children}</Table.Cell>
+  ),
+  ul: ({children, ...props}) => (
+    <List.Root>
+      {React.Children.map(children, (child) => 
+        (child.type === "li") ? <List.Item>{child.props.children}</List.Item> : null)}
+    </List.Root>
   ),
   div: ({ node, children, ...props }) => {
     if (props.id === "divSubtree-H6"){
@@ -183,6 +195,7 @@ export default function App() {
           [remarkGfm, {singleTilde: false}], // references 
           remarkMath, // place Latex into code block 
           remarkFrontmatter, // hide frontmatter 
+          remarkBreaks, 
         ]}
         // hAST --> 
         rehypePlugins={[ 
