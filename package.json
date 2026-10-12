@@ -1,8 +1,10 @@
 {
-  "name": "ocullipse",
+  "name": "root-router",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
-    "start": "vite preview",
-    "build": "echo build"
+    "install": "npm install --prefix testing",
+    "build": "npm run build --prefix testing",
+    "start": "npm start --prefix testing"
   }
 }
