@@ -1,0 +1,8 @@
+{
+  "name": "ocullipse",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "vite preview",
+    "build": "echo build"
+  }
+}
